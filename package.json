@@ -1,0 +1,24 @@
+{
+  "name": "issue-tracker",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/server.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/igordreher/issue-tracker.git"
+  },
+  "author": "Igor Dreher",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/igordreher/issue-tracker/issues"
+  },
+  "homepage": "https://github.com/igordreher/issue-tracker#readme"
+}
