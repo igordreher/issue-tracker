@@ -1,4 +1,4 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
 const routes = Router();
 
@@ -22,4 +22,4 @@ routes.delete('/api/projects/:id', (req, res) => {
     res.send("Hello World");
 });
 
-module.exports = routes;
+export default routes;
