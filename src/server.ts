@@ -1,13 +1,9 @@
 import express from 'express';
-
-import issuesRoutes from './routes/issuesRoutes';
-import usersRoutes from './routes/usersRoutes';
-import projectsRoutes from './routes/projectsRoutes';
+import routes from './routes';
 
 const app = express();
 
-app.use(issuesRoutes);
-app.use(usersRoutes);
-app.use(projectsRoutes);
+app.use(express.json());
+app.use(routes);
 
 app.listen(3000, () => console.log("Listening on port 3000"));
