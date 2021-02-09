@@ -7,6 +7,6 @@ export async function seed(knex: Knex): Promise<void> {
     // Inserts seed entries
     await knex('users').insert([
         { name: 'Bob', email: 'bob@email.com' },
-        { name: 'Rob', email: "rob@email.com" },
+        { name: 'Rob', email: 'rob@email.com' },
     ]);
 };
