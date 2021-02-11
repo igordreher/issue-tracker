@@ -1,42 +1,26 @@
 import { Request, Response } from 'express';
-import Joi from 'joi';
-import knex from '../database';
+import user from '../models/usersModel';
 
-
-function validateUser(userData: object, method: string) {
-    const schema = Joi.when(Joi.ref('$method'), {
-        is: 'create',
-        then: Joi.object({
-            name: Joi.string().required(),
-            email: Joi.string().email().required()
-        }),
-        otherwise: Joi.object({
-            name: Joi.string(),
-            email: Joi.string().email()
-        })
-    });
-    return schema.validate(userData, { context: { 'method': method } });
-}
 
 export default {
 
     async index(req: Request, res: Response) {
-        const result = await knex('users');
-        return res.json(result);
+        try {
+            const result = await user.find();
+            return res.json(result);
+        } catch (error) {
+            res.json(error.message);
+        }
     },
 
     async create(req: Request, res: Response) {
         const { name, email } = req.body;
 
-
-        const { error } = validateUser({ name, email }, 'create');
-        if (error) return res.status(400).send(error.message);
-
         try {
-            await knex('users').insert({ name, email });
-            res.status(201).send();
+            await user.create({ name, email });
+            return res.status(201).json();
         } catch (error) {
-            res.send(error.message);
+            return res.json(error.message);
         }
     },
 
@@ -44,15 +28,11 @@ export default {
         const { id } = req.params;
         const { name, email } = req.body;
 
-
-        const { error } = validateUser({ name, email }, 'patch');
-        if (error) return res.status(400).send(error.message);
-
         try {
-            await knex('users').where({ id }).update({ name, email });
-            res.send();
+            await user.update({ name, email }, id);
+            res.json();
         } catch (error) {
-            res.send(error.message);
+            res.json(error.message);
         }
     },
 
@@ -60,10 +40,10 @@ export default {
         const { id } = req.params;
 
         try {
-            await knex('users').where({ id }).del();
-            return res.send();
+            await user.delete(id);
+            return res.json();
         } catch (error) {
-            res.send(error.message);
+            res.json(error.message);
         }
     }
 };
