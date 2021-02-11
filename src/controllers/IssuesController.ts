@@ -1,34 +1,25 @@
-import { create } from 'domain';
 import { Request, Response } from 'express';
-import Joi, { number, string } from 'joi';
-import knex from '../database';
+import issue from '../models/issuesModel';
 
 export default {
 
     async index(req: Request, res: Response) {
-        const result = await knex('issues');
-        return res.json(result);
+        try {
+            const result = await issue.find();
+            return res.json(result);
+        } catch (error) {
+            return res.json(error.message);
+        }
     },
 
     async create(req: Request, res: Response) {
         const { title, details, submitter_id } = req.body;
 
-        const schema = Joi.object({
-            title: Joi.string().required().max(50),
-            details: Joi.string().required(),
-            submitter_id: Joi.number().required()
-        });
-
-        const { error } = schema.validate({ title, details, submitter_id });
-        if (error) return res.status(400).send(error.message);
-
         try {
-            await knex('issues').insert({
-                title, details, submitter_id
-            });
-            return res.status(201).send();
+            await issue.create({ title, details, submitter_id });
+            return res.status(201).json();
         } catch (error) {
-            return res.send(error.message);
+            return res.json(error.message);
         }
     },
 
@@ -36,24 +27,11 @@ export default {
         const { id } = req.params;
         const { title, details, assigned_id } = req.body;
 
-        const schema = Joi.object({
-            title: Joi.string().max(50),
-            details: Joi.string(),
-            assigned_id: Joi.number().allow(null)
-        });
-
-        const { error } = schema.validate({
-            title, details, assigned_id
-        });
-        if (error) return res.status(400).send(error.message);
-
         try {
-            await knex('issues').where({ id })
-                .update({ title, details, assigned_id });
-
-            return res.send();
+            await issue.update({ title, details, assigned_id }, id);
+            return res.json();
         } catch (error) {
-            return res.send(error.message);
+            return res.json(error.message);
         }
     },
 
@@ -61,10 +39,10 @@ export default {
         const { id } = req.params;
 
         try {
-            await knex('issues').where({ id }).del();
-            return res.send();
+            await issue.delete(id);
+            return res.json();
         } catch (error) {
-            return res.send(error.message);
+            return res.json(error.message);
         }
     }
 };
