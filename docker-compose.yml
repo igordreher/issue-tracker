@@ -2,7 +2,27 @@ version: "3"
 
 services: 
   app:
+    container_name: server
     build: .
     ports: 
       - 3000:3000
-    command: npm start
+    command: sh -c "npm run migrate && npm run dev"
+    volumes: 
+      - ./src:/usr/app/src
+    depends_on: 
+      - db
+    links: 
+      - db
+
+  db:
+    image: postgres:alpine
+    container_name: postgres
+    ports: 
+      - 80:5432
+    environment: 
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=issue_tracker
+    volumes: 
+      - ./db:/var/lib/postgresql/data
+    

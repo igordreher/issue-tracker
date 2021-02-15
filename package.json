@@ -20,7 +20,8 @@
   "scripts": {
     "dev": "nodemon",
     "start": "node ./dist/src/server.js",
-    "build": "tsc"
+    "build": "tsc",
+    "migrate": "knex migrate:latest"
   },
   "repository": {
     "type": "git",

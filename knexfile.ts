@@ -1,17 +1,18 @@
-// Update with your config settings.
 export default {
   development: {
     client: 'pg',
     connection: {
+      host: 'db',
       database: 'issue_tracker',
       user: 'postgres',
-      password: '0000'
+      password: 'postgres',
+      port: '5432'
     },
     migrations: {
       directory: `${__dirname}/src/database/migrations`,
     },
     seeds: {
       directory: `${__dirname}/src/database/seeds`,
-    }
+    },
   },
 };
