@@ -6,7 +6,7 @@ module.exports = {
       database: 'issue_tracker',
       user: 'postgres',
       password: 'postgres',
-      port: '5432'
+      port: 5432
     },
     migrations: {
       directory: `${__dirname}/src/database/migrations`,
