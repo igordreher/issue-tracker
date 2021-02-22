@@ -18,7 +18,7 @@
   },
   "scripts": {
     "dev": "nodemon",
-    "start": "node ./dist/server.js",
+    "start": "node ./dist/src/server.js",
     "build": "tsc",
     "migrate": "knex migrate:latest"
   },
