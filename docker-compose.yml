@@ -2,7 +2,7 @@ version: "3"
 
 services: 
   app:
-    container_name: server
+    container_name: issue-tracker-api
     build: .
     ports: 
       - 3000:3000
