@@ -3,7 +3,6 @@
     "target": "es2017", 
     "module": "commonjs", 
     "lib": ["ES6"],
-    "allowJs": true,
     "outDir": "./dist", 
     "rootDirs": ["./src", "./__tests__"],
     "strict": true, 
