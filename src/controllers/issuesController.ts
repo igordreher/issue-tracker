@@ -3,7 +3,7 @@ import issue from '../models/issuesModel';
 
 export default {
 
-    async index(req: Request, res: Response) {
+    async find(req: Request, res: Response) {
         try {
             const result = await issue.find();
             return res.json(result);

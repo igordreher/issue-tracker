@@ -4,9 +4,14 @@ import user from '../models/usersModel';
 
 export default {
 
-    async index(req: Request, res: Response, next: NextFunction) {
+    async find(req: Request, res: Response, next: NextFunction) {
         try {
-            const result = await user.find();
+            const { id } = req.params;
+            let result: any;
+            if (id)
+                result = await user.findOne(id);
+            else
+                result = await user.find(req.query);
             return res.json(result);
         } catch (error) {
             next(error);

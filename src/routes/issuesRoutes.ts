@@ -3,7 +3,7 @@ import issuesController from '../controllers/issuesController';
 
 const routes = Router();
 
-routes.get('/issues', issuesController.index);
+routes.get('/issues', issuesController.find);
 
 routes.post('/issues', issuesController.create);
 

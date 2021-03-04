@@ -8,8 +8,23 @@ interface UserData {
 }
 
 export default {
-    async find() {
-        return await knex('users');
+    async find(query?: any) {
+        const { name, email } = query;
+        const users = knex('users');
+
+        if (name)
+            users.where('name', 'like', `%${name}%`);
+        if (email)
+            users.where('email', 'like', `%${email}%`);
+
+        return await users;
+    },
+
+    async findOne(id: string) {
+        const user = await knex('users')
+            .where({ id }).first();
+
+        return user;
     },
 
     async create(data: UserData) {

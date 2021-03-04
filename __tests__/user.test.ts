@@ -38,6 +38,26 @@ describe('Users', () => {
         done();
     });
 
+    it('Should return a list of all users', async (done) => {
+        const result = await request(app).get('/users');
+
+        expect(result.body.length).toBe(3);
+        done();
+    });
+
+    it('Should return a filtered list of users', async (done) => {
+        const result = await request(app).get('/users?name=ob');
+
+        expect(result.body.length).toBe(2);
+        done();
+    });
+
+    it('Should return a specific user', async (done) => {
+        const result = await request(app).get('/users/1');
+
+        expect(result.body).toStrictEqual({ id: 1, name: 'Bob', email: 'bob@email.com' });
+        done();
+    });
 
     afterAll(async () => {
         await connection.destroy();

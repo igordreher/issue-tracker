@@ -3,7 +3,9 @@ import usersController from '../controllers/usersController';
 
 const routes = Router();
 
-routes.get('/users', usersController.index);
+routes.get('/users', usersController.find);
+
+routes.get('/users/:id', usersController.find);
 
 routes.post('/users', usersController.create);
 
