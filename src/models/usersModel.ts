@@ -1,5 +1,6 @@
-import knex from '../database';
+import { AppError } from 'errors/AppError';
 import Joi from 'joi';
+import knex from '../database';
 
 interface UserData {
     name: string;
@@ -18,7 +19,10 @@ export default {
         });
 
         const { error } = schema.validate(data);
-        if (error) throw error;
+        if (error) throw new AppError(error.message, 400);
+
+        const existingEmail = await knex('users').where({ email: data.email }).first();
+        if (existingEmail) throw new AppError('User with given email already exists', 400);
 
         await knex('users').insert(data);
     },
@@ -30,7 +34,7 @@ export default {
         });
 
         const { error } = schema.validate(data);
-        if (error) throw error;
+        if (error) throw new AppError(error.message, 400);
 
         await knex('users').where({ id })
             .update(data);

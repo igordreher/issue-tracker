@@ -3,12 +3,12 @@ import issuesController from '../controllers/issuesController';
 
 const routes = Router();
 
-routes.get('/api/issues', issuesController.index);
+routes.get('/issues', issuesController.index);
 
-routes.post('/api/issues', issuesController.create);
+routes.post('/issues', issuesController.create);
 
-routes.patch('/api/issues/:id', issuesController.update);
+routes.patch('/issues/:id', issuesController.update);
 
-routes.delete('/api/issues/:id', issuesController.delete);
+routes.delete('/issues/:id', issuesController.delete);
 
 export default routes;
