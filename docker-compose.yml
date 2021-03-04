@@ -9,6 +9,7 @@ services:
     command: sh -c "npm run migrate && npm run dev"
     volumes: 
       - ./src:/usr/app/src
+      - ./__tests__:/usr/app/__tests__
     depends_on: 
       - db
     links: 
@@ -18,11 +19,21 @@ services:
     image: postgres:alpine
     container_name: postgres
     ports: 
-      - 80:5432
+      - 5433
     environment: 
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=issue_tracker
     volumes: 
       - ./db:/var/lib/postgresql/data
+
+  test-db:
+    image: postgres:alpine
+    container_name: database-test
+    ports: 
+      - 5434
+    environment: 
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=test
     
