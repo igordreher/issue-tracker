@@ -1,6 +1,6 @@
-import { AppError } from 'errors/AppError';
 import Joi from 'joi';
 import knex from '../database';
+import { AppError } from '../errors/AppError';
 
 interface UserData {
     name: string;
@@ -24,6 +24,8 @@ export default {
         const user = await knex('users')
             .where({ id }).first();
 
+        if (!user) throw new AppError('User not found', 404);
+
         return user;
     },
 
@@ -46,13 +48,15 @@ export default {
         const schema = Joi.object({
             name: Joi.string().max(50),
             email: Joi.string().email()
-        });
+        }).or('name', 'email');
 
         const { error } = schema.validate(data);
         if (error) throw new AppError(error.message, 400);
 
-        await knex('users').where({ id })
-            .update(data);
+        const user = knex('users').where({ id });
+        if ((await user).length === 0) throw new AppError('User not found', 404);
+
+        await user.update(data);
     },
 
     async delete(id: string) {
