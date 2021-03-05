@@ -1,14 +1,8 @@
 import app from 'app';
-import connection from 'database';
 import request from 'supertest';
+import connection from 'database';
 
 describe('Users', () => {
-    beforeAll(async () => {
-        await connection.migrate.rollback();
-        await connection.migrate.latest();
-        await connection.seed.run();
-    });
-
     it('Should create a new user', (done) => {
         request(app).post('/users').send({
             name: 'name',
@@ -82,7 +76,8 @@ describe('Users', () => {
         request(app).delete('/users/9').expect(200, done);
     });
 
-    afterAll(async () => {
+    afterAll(async (done) => {
         await connection.destroy();
+        done();
     });
 });
